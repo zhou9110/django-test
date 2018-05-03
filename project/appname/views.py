@@ -18,4 +18,6 @@ class CustomView(APIView):
         return Response("Some Get Response")
  
     def post(self, request, format=None):
+        data = request.data
         return Response("Some Post Response")
+        
