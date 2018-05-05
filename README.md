@@ -17,3 +17,55 @@ python manage.py runserver
 ```
 
 in browser, go to http://localhost:8000/docs to see api docs
+
+
+## API
+
+Login
+```
+/auth/login
+method='POST'
+content_type='JSON'
+data=
+{
+  "username": <USERNAME>,
+  "password": <PASSWORD>
+}
+```
+
+Register
+```
+/auth/register
+method='POST'
+content_type='JSON'
+data=
+{
+  "username": <USERNAME>,
+  "email": <EMAIL>,
+  "password": <PASSWORD>
+}
+```
+
+Change password
+```
+/auth/change_password
+method='POST'
+content_type='JSON'
+data=
+{
+  "username": <USERNAME>,
+  "password": <PASSWORD>
+}
+```
+
+Logout
+```
+/auth/logout
+method='GET'
+```
+
+Get all users
+```
+/auth/users
+method='GET'
+```
