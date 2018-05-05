@@ -63,9 +63,3 @@ Logout
 /auth/logout
 method='GET'
 ```
-
-Get all users
-```
-/auth/users
-method='GET'
-```
