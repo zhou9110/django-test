@@ -23,8 +23,9 @@ from django.conf.urls import url, include
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include('project.appname.urls')),
+    url(r'^auth/', include('project.authentication.urls')),
 ]
- 
+
 '''
 if settings.DEBUG:
     from django.conf.urls.static import static
