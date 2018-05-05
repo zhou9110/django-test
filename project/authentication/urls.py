@@ -15,7 +15,7 @@ router.register(r'groups', GroupViewSet)
 # Additionally, we include login URLs for the browseable API.
 urlpatterns = [
     url(r'^', include(router.urls)),
-    # url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'login', user_login),
     url(r'register', user_register),
     url(r'change_password', user_change_password),

@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'project.api',
     'project.authentication',
-    # 'oauth2_provider',
+    'oauth2_provider',
     'rest_framework',
     'rest_framework_swagger',
 ]
