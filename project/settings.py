@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'project.appname',
+    'project.api',
     'project.authentication',
     # 'oauth2_provider',
     'rest_framework',
@@ -85,7 +85,7 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dbname',
+        'NAME': 'projectdb',
         'USER': 'root',
         'PASSWORD': 'idontknow',
         'HOST': '127.0.0.1', # Or an IP Address that your DB is hosted on

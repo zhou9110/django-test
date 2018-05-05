@@ -8,7 +8,7 @@ from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate, login, logout, models
 import json
 
-# ViewSets define the view behavior.
+
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
     queryset = User.objects.all()

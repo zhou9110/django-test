@@ -3,7 +3,8 @@ from django.contrib import admin
 admin.autodiscover()
 
 from rest_framework import routers
-from project.authentication.views import *
+from .views import *
+
 
 # Routers provide an easy way of automatically determining the URL conf
 router = routers.DefaultRouter()
