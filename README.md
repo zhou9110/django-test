@@ -1,7 +1,8 @@
 # project-name
 
-create mysql database named 'projectdb'
+make sure your machine running mysql
 
+create mysql database named 'projectdb'
 
 ```
 source env/bin/activate
