@@ -19,12 +19,18 @@ from django.urls import path
  
 from django.conf import settings
 from django.conf.urls import url, include
+
+from rest_framework_swagger.views import get_swagger_view
  
+schema_view = get_swagger_view(title='API')
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api/', include('project.appname.urls')),
+    url(r'^api/', include('project.api.urls')),
+    url(r'^auth/', include('project.authentication.urls')),
+    url(r'^docs/', schema_view),
 ]
- 
+
 '''
 if settings.DEBUG:
     from django.conf.urls.static import static

@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'project.appname',
+    'project.api',
+    'project.authentication',
+    # 'oauth2_provider',
     'rest_framework',
     'rest_framework_swagger',
 ]
@@ -83,7 +85,7 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dbname',
+        'NAME': 'projectdb',
         'USER': 'root',
         'PASSWORD': 'idontknow',
         'HOST': '127.0.0.1', # Or an IP Address that your DB is hosted on
@@ -129,3 +131,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# OAUTH2_PROVIDER = {
+#     # this is the list of available scopes
+#     'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'groups': 'Access to your groups'}
+# }
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+#     ),
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAuthenticated',
+#     )
+# }
