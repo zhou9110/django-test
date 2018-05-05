@@ -15,3 +15,5 @@ python manage.py createsuperuser
 
 python manage.py runserver
 ```
+
+in browser, go to http://localhost:8000/docs to see api docs
