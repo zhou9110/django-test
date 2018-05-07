@@ -7,6 +7,9 @@ from rest_framework.views import Response
 from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate, login, logout, models
 import json
+from project.user.models import *
+from django.http import HttpResponse, JsonResponse
+from rest_framework.parsers import JSONParser
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -26,14 +29,18 @@ def user_register(request):
         data = request.data
         user = User.objects.create_user(data['username'], data['email'], data['password'])
         user.save()
+        profile = Profile.objects.create(user=user)
+        profile.save()
         return Response("REGISTER SUCCESS")
     except Exception as e:
         print(e)
-        return Response("REGISTER FAILED", status=500)
+        return Response("REGISTER FAILED", status=400)
 
 @api_view(['POST'])
 def user_login(request):
     try:
+        if (request.user.is_authenticated):
+            return Response("USER LOGGED IN", status=400)
         data = request.data
         username = data['username']
         password = data['password']
@@ -44,14 +51,16 @@ def user_login(request):
             return Response("LOGIN SUCCESS") 
         else:
             # Return an 'invalid login' error message.
-            return Response("LOGIN FAILED", status=500)
+            return Response("LOGIN FAILED", status=400)
     except Exception as e:
         print(e)
-        return Response("LOGIN FAILED", status=500) 
+        return Response("LOGIN FAILED", status=400) 
 
 @api_view(['POST'])
 def user_change_password(request):
     try:
+        if (not request.user.is_authenticated):
+            return Response("USER IS NOT AUTHENTICATED", status=400)
         data = request.data
         username = data['username']
         password = data['password']
@@ -61,13 +70,15 @@ def user_change_password(request):
         return Response("CHANGE PASSWORD SUCCESS")
     except Exception as e:
         print(e)
-        return Response("CHANGE PASSWORD FAILED", status=500)
+        return Response("CHANGE PASSWORD FAILED", status=400)
 
 @api_view(['GET'])
 def user_logout(request):
     try:
+        if (not request.user.is_authenticated):
+            return Response("USER IS NOT AUTHENTICATED", status=400)
         logout(request)
         return Response("LOGOUT SUCCESS")
     except Exception as e:
         print(e)
-        return Response("LOGOUT FAILED", status=500)
+        return Response("LOGOUT FAILED", status=400)

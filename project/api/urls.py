@@ -4,5 +4,5 @@ from .views import *
 
 
 urlpatterns = [
-    url(r'customview', custom_view),
+    url(r'^customview/$', custom_view),
 ]

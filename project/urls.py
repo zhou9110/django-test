@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^api/', include('project.api.urls')),
     url(r'^auth/', include('project.authentication.urls')),
     url(r'^docs/', schema_view),
+    url(r'^user/', include('project.user.urls')),
 ]
 
 '''
