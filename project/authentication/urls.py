@@ -1,7 +1,4 @@
 from django.conf.urls import url, include
-from django.contrib import admin
-admin.autodiscover()
-
 from rest_framework import routers
 from .views import *
 
@@ -15,10 +12,10 @@ router.register(r'groups', GroupViewSet)
 # Additionally, we include login URLs for the browseable API.
 urlpatterns = [
     url(r'^', include(router.urls)),
-    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
-    url(r'login', user_login),
-    url(r'register', user_register),
-    url(r'change_password', user_change_password),
-    url(r'logout', user_logout),
+    # url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    url(r'^login/$', user_login),
+    url(r'^register/$', user_register),
+    url(r'^change_password/$', user_change_password),
+    url(r'^logout/$', user_logout),
     # ...
 ]
