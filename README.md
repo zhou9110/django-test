@@ -4,8 +4,10 @@ make sure your machine running mysql
 
 create mysql database named 'projectdb'
 
+clone this project and then
+
 ```
-virtualenv env
+cd project-name
 
 source env/bin/activate
 
