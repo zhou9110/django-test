@@ -19,7 +19,7 @@ def user_get_profile(request):
     return JsonResponse(serializer.data)
 
 @api_view(['PUT'])
-def user_edit_profile(request):
+def user_update_profile(request):
     if (not request.user.is_authenticated):
         return JsonResponse({
                 "command"   :   "NOT_AUTHENTICATED",
