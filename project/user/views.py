@@ -63,6 +63,34 @@ def user_follow(request):
                 "command"   :   "FOLLOW_SUCCESS"
             }, status=200)
 
+@api_view(['POST'])
+def user_unfollow(request):
+    if (not request.user.is_authenticated):
+        return JsonResponse({
+                "command"   :   "NOT_AUTHENTICATED",
+                "info"      :   "user is not authenticated"
+            }, status=400)
+    data = request.data
+    try:
+        data['username']
+    except Exception as e:
+        return JsonResponse({
+                "command"   :   "UNFOLLOW_FAILED",
+                "info"      :   str(e)
+            }, status=400)
+    follower = User.objects.get(username=data['username'])
+    try:
+        follow = Follow.objects.get(following_id=request.user.id,follower_id=follower.id)
+        follow.delete()
+        return JsonResponse({
+                "command"   :   "UNFOLLOW_SUCCESS"
+            }, status=200)
+    except Exception as _:
+        return JsonResponse({
+                "command"   :   "UNFOLLOW_FAILED",
+                "info"      :   "follow state does not exist"
+            }, status=400)
+
 @api_view(['GET'])
 def user_get_following(request):
     if (not request.user.is_authenticated):
