@@ -2,14 +2,12 @@ from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from rest_framework import permissions, viewsets
 from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, TokenHasScope
-from .serializers import *
-from rest_framework.views import Response
 from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate, login, logout, models
-import json
-from project.user.models import *
 from django.http import HttpResponse, JsonResponse
-from rest_framework.parsers import JSONParser
+from .serializers import *
+from project.user.models import *
+import json
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -24,61 +22,110 @@ class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = GroupSerializer
 
 @api_view(['POST'])
-def user_register(request):
+def auth_register(request):
     try:
+        # serialize data
         data = request.data
-        user = User.objects.create_user(data['username'], data['email'], data['password'])
+        serializer = RegisterSerializer(data=data)
+        serializer.is_valid()
+        # create user
+        user = User.objects.create_user(
+                serializer.data['username'], 
+                serializer.data['email'], 
+                serializer.data['password']
+            )
         user.save()
+        # create profile
         profile = Profile.objects.create(user=user)
         profile.save()
-        return Response("REGISTER SUCCESS")
+        return JsonResponse({
+                "command"   :   "REGISTER_SUCCESS", 
+                "username"  :   serializer.data['username']
+            }, status=200)
     except Exception as e:
-        print(e)
-        return Response("REGISTER FAILED", status=400)
+        return JsonResponse({
+                "command"   :   "REGISTER_FAILED",
+                "info"      :   str(e)
+            }, status=400)
 
 @api_view(['POST'])
-def user_login(request):
+def auth_login(request):
     try:
+        # check authenticated
         if (request.user.is_authenticated):
-            return Response("USER LOGGED IN", status=400)
+            return JsonResponse({
+                    "command"   :   "LOGIN_FAILED",
+                    "info"      :   "user already logged in"
+                }, status=400)
+        # serialize data
         data = request.data
-        username = data['username']
-        password = data['password']
-        user = authenticate(request, username=username, password=password)
+        serializer = LoginSerializer(data=data)
+        serializer.is_valid()
+        # authenticate user
+        user = authenticate(
+                request, 
+                username=serializer.data['username'], 
+                password=serializer.data['password']
+            )
         if user is not None:
+            # log user in
             login(request, user)
-            # Redirect to a success page.
-            return Response("LOGIN SUCCESS") 
+            return JsonResponse({
+                    "command"   :   "LOGIN_SUCCESS", 
+                    "username"  :   serializer.data['username']
+                }, status=200)
         else:
-            # Return an 'invalid login' error message.
-            return Response("LOGIN FAILED", status=400)
+            # invalid login
+            return JsonResponse({
+                    "command"   :   "LOGIN_FAILED", 
+                    "username"  :   serializer.data['username']
+                }, status=400)
     except Exception as e:
-        print(e)
-        return Response("LOGIN FAILED", status=400) 
+        return JsonResponse({
+                "command"   :   "LOGIN_FAILED",
+                "info"      :   str(e)
+            }, status=400)
 
-@api_view(['POST'])
-def user_change_password(request):
+@api_view(['PUT'])
+def auth_update_password(request):
     try:
         if (not request.user.is_authenticated):
-            return Response("USER IS NOT AUTHENTICATED", status=400)
+            return JsonResponse({
+                    "command"   :   "NOT_AUTHENTICATED",
+                    "info"      :   "user is not authenticated"
+                }, status=400)
+        # serialize data
         data = request.data
-        username = data['username']
-        password = data['password']
-        user = User.objects.get(username=username)
-        user.set_password(password)
+        serializer = UpdatePasswordSerializer(data=data)
+        serializer.is_valid()
+        # get user and update password
+        user = User.objects.get(pk=request.user.id)
+        user.set_password(serializer.data['password'])
         user.save()
-        return Response("CHANGE PASSWORD SUCCESS")
+        return JsonResponse({
+                "command"   :   "UPDATE_PASSWORD_SUCCESS"
+            }, status=200)
     except Exception as e:
-        print(e)
-        return Response("CHANGE PASSWORD FAILED", status=400)
+        return JsonResponse({
+                "command"   :   "UPDATE_PASSWORD_FAILED",
+                "info"      :   str(e)
+            }, status=400)
 
 @api_view(['GET'])
-def user_logout(request):
+def auth_logout(request):
     try:
         if (not request.user.is_authenticated):
-            return Response("USER IS NOT AUTHENTICATED", status=400)
+            return JsonResponse({
+                    "command"   :   "NOT_AUTHENTICATED",
+                    "info"      :   "user is not authenticated"
+                }, status=400)
+        # log user out
         logout(request)
-        return Response("LOGOUT SUCCESS")
+        return JsonResponse({
+                "command"   :   "LOGOUT_SUCCESS"
+            }, status=200)
     except Exception as e:
-        print(e)
-        return Response("LOGOUT FAILED", status=400)
+        JsonResponse({
+                "command"   :   "LOGOUT_FAILED",
+                "info"      :   str(e)
+            }, status=400)

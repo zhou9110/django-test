@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User, Group
 
-# first we define the serializers
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -12,3 +12,17 @@ class GroupSerializer(serializers.ModelSerializer):
         model = Group
         fields = '__all__'
         
+class RegisterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'password', 'email']
+
+class LoginSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'password']
+
+class UpdatePasswordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['password']

@@ -4,7 +4,6 @@ from .serializers import *
 from rest_framework.views import Response
 from rest_framework.decorators import api_view
 from django.http import HttpResponse, JsonResponse
-from rest_framework.parsers import JSONParser
 
 
 @api_view(['GET'])
@@ -22,7 +21,7 @@ def edit_profile(request):
         return Response("USER IS NOT AUTHENTICATED", status=400)
     user_id = request.user.id
     profile = Profile.objects.get(user_id=user_id)
-    data = JSONParser().parse(request)
+    data = request.data
     serializer = ProfileSerializer(profile, data=data)
     if serializer.is_valid():
         serializer.save()

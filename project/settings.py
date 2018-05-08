@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'project.api',
     'project.authentication',
     'project.user',
-    # 'oauth2_provider',
+    'oauth2_provider',
     'rest_framework',
     'rest_framework_swagger',
 ]
@@ -80,10 +80,6 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    # }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'projectdb',

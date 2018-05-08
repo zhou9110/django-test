@@ -13,9 +13,9 @@ router.register(r'groups', GroupViewSet)
 urlpatterns = [
     url(r'^', include(router.urls)),
     # url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
-    url(r'^login/$', user_login),
-    url(r'^register/$', user_register),
-    url(r'^change_password/$', user_change_password),
-    url(r'^logout/$', user_logout),
+    url(r'^login/$', auth_login),
+    url(r'^register/$', auth_register),
+    url(r'^update_password/$', auth_update_password),
+    url(r'^logout/$', auth_logout),
     # ...
 ]
