@@ -31,6 +31,11 @@ data=
   "username": <USERNAME>,
   "password": <PASSWORD>
 }
+OR
+{
+  "email": <EMAIL>,
+  "password": <PASSWORD>
+}
 ```
 
 Register
