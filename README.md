@@ -46,7 +46,7 @@ data=
 }
 ```
 
-UPdate password
+Update password
 ```
 /auth/update_password
 method='PUT'
@@ -60,5 +60,59 @@ data=
 Logout
 ```
 /auth/logout
+method='GET'
+```
+
+Get profile
+```
+/user/get_profile
+method='GET'
+```
+
+Update profile
+```
+/user/update_profile
+method='PUT'
+content_type='application/json'
+data=
+{
+  "mobile": <MOBILE>,
+  "bio": <BIO>,
+  "gender": <GENDER>,
+  "profile_image": <PROFILE_IMAGE>
+}
+```
+
+Follow
+```
+/user/follow
+method='POST'
+content_type='application/json'
+data=
+{
+  "username": <USERNAME>
+}
+```
+
+Unfollow
+```
+/user/unfollow
+method='POST'
+content_type='application/json'
+data=
+{
+  "username": <USERNAME>
+}
+```
+
+Get following
+```
+/user/get_following
+method='GET'
+```
+
+Get followers
+```
+/user/get_followers
 method='GET'
 ```
