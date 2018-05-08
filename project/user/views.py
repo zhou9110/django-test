@@ -9,7 +9,11 @@ from django.http import HttpResponse, JsonResponse
 @api_view(['GET'])
 def get_profile(request):
     if (not request.user.is_authenticated):
-        return Response("USER IS NOT AUTHENTICATED", status=400)
+        return JsonResponse({
+                "command"   :   "NOT_AUTHENTICATED",
+                "info"      :   "user is not authenticated"
+            }, status=400)
+    # serialize data
     user_id = request.user.id
     profile = Profile.objects.get(user_id=user_id)
     serializer = ProfileSerializer(profile)
@@ -18,7 +22,11 @@ def get_profile(request):
 @api_view(['PUT'])
 def edit_profile(request):
     if (not request.user.is_authenticated):
-        return Response("USER IS NOT AUTHENTICATED", status=400)
+        return JsonResponse({
+                "command"   :   "NOT_AUTHENTICATED",
+                "info"      :   "user is not authenticated"
+            }, status=400)
+    # serialize data
     user_id = request.user.id
     profile = Profile.objects.get(user_id=user_id)
     data = request.data

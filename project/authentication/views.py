@@ -24,15 +24,22 @@ class GroupViewSet(viewsets.ModelViewSet):
 @api_view(['POST'])
 def auth_register(request):
     try:
-        # serialize data
+        # get data
         data = request.data
-        serializer = RegisterSerializer(data=data)
-        serializer.is_valid()
+        try:
+            data['username']
+            data['email']
+            data['password']
+        except KeyError as e:
+            return JsonResponse({
+                "command"   :   "DATA_INVALID",
+                "info"      :   str(e)
+            }, status=400)
         # create user
         user = User.objects.create_user(
-                serializer.data['username'], 
-                serializer.data['email'], 
-                serializer.data['password']
+                data['username'], 
+                data['email'], 
+                data['password']
             )
         user.save()
         # create profile
@@ -40,7 +47,7 @@ def auth_register(request):
         profile.save()
         return JsonResponse({
                 "command"   :   "REGISTER_SUCCESS", 
-                "username"  :   serializer.data['username']
+                "username"  :   data['username']
             }, status=200)
     except Exception as e:
         return JsonResponse({
@@ -57,28 +64,43 @@ def auth_login(request):
                     "command"   :   "LOGIN_FAILED",
                     "info"      :   "user already logged in"
                 }, status=400)
-        # serialize data
+        # get data
         data = request.data
-        serializer = LoginSerializer(data=data)
-        serializer.is_valid()
+        user = None
+        if ('username' in data):
+            user = User.objects.get(username=data['username'])
+        elif ('email' in data):
+            user = User.objects.get(email=data['email'])
+        else:
+            return JsonResponse({
+                "command"   :   "DATA_INVALID",
+                "info"      :   "missing username or email"
+            }, status=400)
+        try:
+            data['password']
+        except KeyError as e:
+            return JsonResponse({
+                "command"   :   "DATA_INVALID",
+                "info"      :   str(e)
+            }, status=400)
         # authenticate user
         user = authenticate(
                 request, 
-                username=serializer.data['username'], 
-                password=serializer.data['password']
+                username=user.username, 
+                password=data['password']
             )
         if user is not None:
             # log user in
             login(request, user)
             return JsonResponse({
                     "command"   :   "LOGIN_SUCCESS", 
-                    "username"  :   serializer.data['username']
+                    "username"  :   user.username
                 }, status=200)
         else:
             # invalid login
             return JsonResponse({
                     "command"   :   "LOGIN_FAILED", 
-                    "username"  :   serializer.data['username']
+                    "username"  :   user.username
                 }, status=400)
     except Exception as e:
         return JsonResponse({
@@ -94,13 +116,18 @@ def auth_update_password(request):
                     "command"   :   "NOT_AUTHENTICATED",
                     "info"      :   "user is not authenticated"
                 }, status=400)
-        # serialize data
+        # get data
         data = request.data
-        serializer = UpdatePasswordSerializer(data=data)
-        serializer.is_valid()
+        try:
+            data['password']
+        except KeyError as e:
+            return JsonResponse({
+                "command"   :   "DATA_INVALID",
+                "info"      :   str(e)
+            }, status=400)
         # get user and update password
         user = User.objects.get(pk=request.user.id)
-        user.set_password(serializer.data['password'])
+        user.set_password(data['password'])
         user.save()
         return JsonResponse({
                 "command"   :   "UPDATE_PASSWORD_SUCCESS"

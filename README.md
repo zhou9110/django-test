@@ -25,7 +25,7 @@ Login
 ```
 /auth/login
 method='POST'
-content_type='JSON'
+content_type='application/json'
 data=
 {
   "username": <USERNAME>,
@@ -37,7 +37,7 @@ Register
 ```
 /auth/register
 method='POST'
-content_type='JSON'
+content_type='application/json'
 data=
 {
   "username": <USERNAME>,
@@ -46,14 +46,13 @@ data=
 }
 ```
 
-Change password
+UPdate password
 ```
-/auth/change_password
-method='POST'
-content_type='JSON'
+/auth/update_password
+method='PUT'
+content_type='application/json'
 data=
 {
-  "username": <USERNAME>,
   "password": <PASSWORD>
 }
 ```
