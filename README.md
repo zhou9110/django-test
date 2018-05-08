@@ -5,6 +5,8 @@ make sure your machine running mysql
 create mysql database named 'projectdb'
 
 ```
+virtualenv env
+
 source env/bin/activate
 
 pip install -r requirements.pip
