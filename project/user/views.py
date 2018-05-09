@@ -52,6 +52,7 @@ def user_update_profile(request):
     try:
         profile = Profile.objects.get(user_id=request.user.id)
         data = request.data
+        data['user'] = request.user.id
         serializer = ProfileSerializer(profile, data=data)
         if serializer.is_valid():
             serializer.save()

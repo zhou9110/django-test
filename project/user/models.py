@@ -16,14 +16,14 @@ class Profile(models.Model):
         (FEMALE, 'Female'),
         (NOT_SPECIFIED, 'Not Specified'),
     )
-    mobile = models.CharField(max_length=32)
-    bio = models.CharField(max_length=128)
+    mobile = models.CharField(max_length=32, null=True)
+    bio = models.CharField(max_length=128, null=True)
     gender = models.CharField(
         max_length=2,
         choices=GENDER_CHOICES,
-        default=NOT_SPECIFIED,
+        null=True,
     )
-    profile_image = models.CharField(max_length=256)
+    profile_image = models.CharField(max_length=256, null=True)
 
 class Follow(models.Model):
     following = models.ForeignKey(

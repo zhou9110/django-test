@@ -16,7 +16,7 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
     images = models.TextField()
-    location = models.TextField()
+    location = models.TextField(null=True)
 
 class Comment(models.Model):
     post = models.ForeignKey(

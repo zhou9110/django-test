@@ -93,10 +93,10 @@ method='PUT'
 content_type='application/json'
 data=
 {
-  "mobile": <MOBILE>,
-  "bio": <BIO>,
-  "gender": <GENDER>,
-  "profile_image": <PROFILE_IMAGE>
+  "mobile": <MOBILE>, (optional)
+  "bio": <BIO>, (optional)
+  "gender": <GENDER>, (optional)
+  "profile_image": <PROFILE_IMAGE> (optional)
 }
 ```
 
