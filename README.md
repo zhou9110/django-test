@@ -29,7 +29,7 @@ in browser, go to http://localhost:8000/docs to see api docs
 
 Login
 ```
-/auth/login
+/auth/login/
 method='POST'
 content_type='application/json'
 data=
@@ -46,7 +46,7 @@ OR
 
 Register
 ```
-/auth/register
+/auth/register/
 method='POST'
 content_type='application/json'
 data=
@@ -59,7 +59,7 @@ data=
 
 Update password
 ```
-/auth/update_password
+/auth/update_password/
 method='PUT'
 content_type='application/json'
 data=
@@ -70,7 +70,7 @@ data=
 
 Logout
 ```
-/auth/logout
+/auth/logout/
 method='GET'
 ```
 
