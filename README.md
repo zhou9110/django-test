@@ -9,6 +9,8 @@ clone this project and then
 ```
 cd project-name
 
+virtualenv env
+
 source env/bin/activate
 
 pip install -r requirements.pip
