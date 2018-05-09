@@ -23,20 +23,18 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
+# /auth/register/
 @api_view(['POST'])
 def auth_register(request):
+    # check authenticated
+    # if (request.user.is_authenticated):
+    #     return JsonResponse({
+    #             "command"   :   "IS_AUTHENTICATED",
+    #             "info"      :   "user is logged in"
+    #         }, status=400)
     try:
         # get data
         data = request.data
-        try:
-            data['username']
-            data['email']
-            data['password']
-        except KeyError as e:
-            return JsonResponse({
-                "command"   :   "DATA_INVALID",
-                "info"      :   str(e)
-            }, status=400)
         # create user
         user = User.objects.create_user(
                 data['username'], 
@@ -57,15 +55,16 @@ def auth_register(request):
                 "info"      :   str(e)
             }, status=400)
 
+# /auth/login/
 @api_view(['POST'])
 def auth_login(request):
+    # check authenticated
+    if (request.user.is_authenticated):
+        return JsonResponse({
+                "command"   :   "LOGIN_FAILED",
+                "info"      :   "user already logged in"
+            }, status=400)
     try:
-        # check authenticated
-        if (request.user.is_authenticated):
-            return JsonResponse({
-                    "command"   :   "LOGIN_FAILED",
-                    "info"      :   "user already logged in"
-                }, status=400)
         # get data
         data = request.data
         user = None
@@ -73,18 +72,6 @@ def auth_login(request):
             user = User.objects.get(username=data['username'])
         elif ('email' in data):
             user = User.objects.get(email=data['email'])
-        else:
-            return JsonResponse({
-                "command"   :   "DATA_INVALID",
-                "info"      :   "missing username or email"
-            }, status=400)
-        try:
-            data['password']
-        except KeyError as e:
-            return JsonResponse({
-                "command"   :   "DATA_INVALID",
-                "info"      :   str(e)
-            }, status=400)
         # authenticate user
         user = authenticate(
                 request, 
@@ -110,14 +97,16 @@ def auth_login(request):
                 "info"      :   str(e)
             }, status=400)
 
+# /auth/update_password/
 @api_view(['PUT'])
 def auth_update_password(request):
+    # check authenticated
+    if (not request.user.is_authenticated):
+        return JsonResponse({
+                "command"   :   "NOT_AUTHENTICATED",
+                "info"      :   "user is not authenticated"
+            }, status=400)
     try:
-        if (not request.user.is_authenticated):
-            return JsonResponse({
-                    "command"   :   "NOT_AUTHENTICATED",
-                    "info"      :   "user is not authenticated"
-                }, status=400)
         # get data
         data = request.data
         try:
@@ -140,14 +129,16 @@ def auth_update_password(request):
                 "info"      :   str(e)
             }, status=400)
 
+# /auth/logout/
 @api_view(['GET'])
 def auth_logout(request):
+    # check authenticated
+    if (not request.user.is_authenticated):
+        return JsonResponse({
+                "command"   :   "NOT_AUTHENTICATED",
+                "info"      :   "user is not authenticated"
+            }, status=400)
     try:
-        if (not request.user.is_authenticated):
-            return JsonResponse({
-                    "command"   :   "NOT_AUTHENTICATED",
-                    "info"      :   "user is not authenticated"
-                }, status=400)
         # log user out
         logout(request)
         return JsonResponse({
