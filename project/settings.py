@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'project.user',
     'project.message',
     'project.post',
-    'oauth2_provider',
+    # 'oauth2_provider',
     'rest_framework',
     'rest_framework_swagger',
 ]
