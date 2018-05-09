@@ -6,8 +6,7 @@ from django.utils import timezone
 class Profile(models.Model):
     user = models.ForeignKey(
         User,
-        models.CASCADE,
-        null=True,
+        models.CASCADE
     )
     MALE = 'M'
     FEMALE = 'F'
@@ -30,13 +29,11 @@ class Follow(models.Model):
     following = models.ForeignKey(
         User,
         models.CASCADE,
-        null=True,
         related_name="who_follows",
     )
     follower = models.ForeignKey(
         User,
         models.CASCADE,
-        null=True,
         related_name="who_is_followed",
     )
-    timestamp = models.DateTimeField(auto_now_add=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
