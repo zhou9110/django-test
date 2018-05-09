@@ -4,6 +4,7 @@ from django.utils import timezone
 
 class Tag(models.Model):
     text = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
 
 class Post(models.Model):
     user = models.ForeignKey(
