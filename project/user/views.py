@@ -5,9 +5,9 @@ from rest_framework.decorators import api_view
 from django.http import HttpResponse, JsonResponse
 
 
-# /user/get_profile/
+# /user/profile/
 @api_view(['GET'])
-def user_get_profile(request):
+def user_profile(request):
     if (not request.user.is_authenticated):
         return JsonResponse({
                 "command"   :   "NOT_AUTHENTICATED",
@@ -23,9 +23,9 @@ def user_get_profile(request):
                 "info"      :   str(e)
             }, status=400)
 
-# /user/get_profile/<id>/
+# /user/profile/<id>/
 @api_view(['GET'])
-def user_get_profile_by_id(request, pk):
+def user_profile_by_id(request, pk):
     if (not request.user.is_authenticated):
         return JsonResponse({
                 "command"   :   "NOT_AUTHENTICATED",

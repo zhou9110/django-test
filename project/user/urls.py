@@ -3,8 +3,8 @@ from .views import *
 
 
 urlpatterns = [
-    url(r'^get_profile/$', user_get_profile),
-    url(r'^get_profile/(?P<pk>[0-9]+)/$', user_get_profile_by_id),
+    url(r'^profile/$', user_profile),
+    url(r'^profile/(?P<pk>[0-9]+)/$', user_profile_by_id),
     url(r'^update_profile/$', user_update_profile),
     url(r'^follow/(?P<pk>[0-9]+)/$', user_follow),
     url(r'^unfollow/(?P<pk>[0-9]+)/$', user_unfollow),

@@ -2,7 +2,7 @@
 
 make sure your machine running mysql
 
-create mysql database named 'projectdb'
+create mysql database named 'test-db'
 
 clone this project and then
 
@@ -76,13 +76,19 @@ method='GET'
 
 Get profile
 ```
-/user/get_profile
+/user/profile/
+method='GET'
+```
+
+Get profile by id
+```
+/user/profile/<id>/
 method='GET'
 ```
 
 Update profile
 ```
-/user/update_profile
+/user/update_profile/
 method='PUT'
 content_type='application/json'
 data=
@@ -96,34 +102,40 @@ data=
 
 Follow
 ```
-/user/follow
+/user/follow/<id>/
 method='POST'
 content_type='application/json'
-data=
-{
-  "username": <USERNAME>
-}
+data={}
 ```
 
 Unfollow
 ```
-/user/unfollow
+/user/unfollow/<id>/
 method='POST'
 content_type='application/json'
-data=
-{
-  "username": <USERNAME>
-}
+data={}
 ```
 
 Get following
 ```
-/user/get_following
+/user/following/
+method='GET'
+```
+
+Get following by id
+```
+/user/following/<id>/
 method='GET'
 ```
 
 Get followers
 ```
-/user/get_followers
+/user/followers/
+method='GET'
+```
+
+Get followers by id
+```
+/user/followers/<id>/
 method='GET'
 ```
