@@ -109,13 +109,6 @@ def auth_update_password(request):
     try:
         # get data
         data = request.data
-        try:
-            data['password']
-        except KeyError as e:
-            return JsonResponse({
-                "command"   :   "DATA_INVALID",
-                "info"      :   str(e)
-            }, status=400)
         # get user and update password
         user = User.objects.get(pk=request.user.id)
         user.set_password(data['password'])

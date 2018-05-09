@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'project.api',
     'project.authentication',
     'project.user',
+    'project.message',
+    'project.post',
     'oauth2_provider',
     'rest_framework',
     'rest_framework_swagger',

@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from .models import *
 from .serializers import *
-from rest_framework.views import Response
 from rest_framework.decorators import api_view
 from django.http import HttpResponse, JsonResponse
 
@@ -24,7 +23,7 @@ def user_get_profile(request):
                 "info"      :   str(e)
             }, status=400)
 
-# /user/get_profile/<id>
+# /user/get_profile/<id>/
 @api_view(['GET'])
 def user_get_profile_by_id(request, pk):
     if (not request.user.is_authenticated):
@@ -113,9 +112,9 @@ def user_unfollow(request, pk):
                 "info"      :   str(e)
             }, status=400)
 
-# /user/get_following/
+# /user/following/
 @api_view(['GET'])
-def user_get_following(request):
+def user_following(request):
     if (not request.user.is_authenticated):
         return JsonResponse({
                 "command"   :   "NOT_AUTHENTICATED",
@@ -134,9 +133,9 @@ def user_get_following(request):
                 "info"      :   str(e)
             }, status=400)
 
-# /user/get_following/<id>/
+# /user/following/<id>/
 @api_view(['GET'])
-def user_get_following_by_id(request, pk):
+def user_following_by_id(request, pk):
     if (not request.user.is_authenticated):
         return JsonResponse({
                 "command"   :   "NOT_AUTHENTICATED",
@@ -155,9 +154,9 @@ def user_get_following_by_id(request, pk):
                 "info"      :   str(e)
             }, status=400)
 
-# /user/get_followers/
+# /user/followers/
 @api_view(['GET'])
-def user_get_followers(request):
+def user_followers(request):
     if (not request.user.is_authenticated):
         return JsonResponse({
                 "command"   :   "NOT_AUTHENTICATED",
@@ -176,9 +175,9 @@ def user_get_followers(request):
                 "info"      :   str(e)
             }, status=400)
 
-# /user/get_followers/<id>/
+# /user/followers/<id>/
 @api_view(['GET'])
-def user_get_followers_by_id(request, pk):
+def user_followers_by_id(request, pk):
     if (not request.user.is_authenticated):
         return JsonResponse({
                 "command"   :   "NOT_AUTHENTICATED",
