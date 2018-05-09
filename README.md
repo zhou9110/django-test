@@ -4,7 +4,11 @@ make sure your machine running mysql
 
 create mysql database named 'projectdb'
 
+clone this project and then
+
 ```
+cd project-name
+
 source env/bin/activate
 
 pip install -r requirements.pip
