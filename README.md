@@ -95,7 +95,7 @@ data=
 {
   "mobile": <MOBILE>, (optional)
   "bio": <BIO>, (optional)
-  "gender": <GENDER>, (optional)
+  "gender": <GENDER-enum"M"/"F"/"NS">, (optional)
   "profile_image": <PROFILE_IMAGE> (optional)
 }
 ```

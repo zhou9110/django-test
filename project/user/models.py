@@ -21,9 +21,10 @@ class Profile(models.Model):
     gender = models.CharField(
         max_length=2,
         choices=GENDER_CHOICES,
-        null=True,
+        default=NOT_SPECIFIED
     )
     profile_image = models.CharField(max_length=256, null=True)
+    last_modified = models.DateTimeField(auto_now=True)
 
 class Follow(models.Model):
     following = models.ForeignKey(
