@@ -185,7 +185,7 @@ data=
 
 Comment post by post id from the current user
 ```
-/post/comment/<id>/
+/post/create_comment/<id>/
 method='POST'
 data=
 {
@@ -193,11 +193,23 @@ data=
 }
 ```
 
+Get comments of a post by post id
+```
+/post/comments/<pid>/
+method='GET'
+```
+
 Like post by post id from the current user
 ```
-/post/like/<id>/
+/post/create_like/<id>/
 method='POST'
 data={}
+```
+
+Get likes of a post by post id
+```
+/post/likes/<pid>/
+method='GET'
 ```
 
 Get tag by tag id
@@ -222,5 +234,53 @@ method='POST'
 data=
 {
   "name": <TAG_NAME>
+}
+```
+
+Create a collection of the current user
+```
+/post/create_collection/
+method='POST'
+data=
+{
+  "name": <COLLECTION_NAME>
+}
+```
+
+Get a collection by collection id
+```
+/post/collection/<id>/
+method='GET'
+```
+
+Get collections of the current user
+```
+/post/collections/
+method='GET'
+```
+
+Get collections of a user by user id
+```
+/post/collections/<uid>/
+method='GET'
+```
+
+Update a collection (method: append) of the current user by collection id
+```
+/post/update_collection/append/<id>/
+method='PUT'
+data=
+{
+  "post_id": <POST_ID>
+}
+```
+
+Update a collection (method: remove) of the current user by collection id
+```
+/post/update_collection/remove/<id>/
+method='PUT'
+data=
+{
+  "post_id": <POST_ID>
 }
 ```

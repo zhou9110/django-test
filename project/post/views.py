@@ -20,7 +20,7 @@ def post_posts(request):
         for post in posts:
             serializer = PostSerializer(post)
             response.append(serializer.data)
-        return JsonResponse(response)
+        return JsonResponse(response, safe=False)
     except Exception as e:
         return JsonResponse({
                 "command"   :   "GET_POSTS_FAILED",
@@ -41,7 +41,7 @@ def post_posts_by_uid(request, uid):
         for post in posts:
             serializer = PostSerializer(post)
             response.append(serializer.data)
-        return JsonResponse(response)
+        return JsonResponse(response, safe=False)
     except Exception as e:
         return JsonResponse({
                 "command"   :   "GET_POSTS_FAILED",
@@ -62,7 +62,7 @@ def post_post(request, pk):
         return JsonResponse(serializer.data)
     except Exception as e:
         return JsonResponse({
-                "command"   :   "GET_POSTS_FAILED",
+                "command"   :   "GET_POST_FAILED",
                 "info"      :   str(e)
             }, status=400)
 
@@ -135,9 +135,9 @@ def post_update(request, pk):
                 "info"      :   str(e)
             }, status=400)
 
-# /post/comment/<id>/
+# /post/create_comment/<id>/
 @api_view(['POST'])
-def post_comment(request, pk):
+def post_create_comment(request, pk):
     if (not request.user.is_authenticated):
         return JsonResponse({
                 "command"   :   "NOT_AUTHENTICATED",
@@ -161,9 +161,30 @@ def post_comment(request, pk):
                 "info"      :   str(e)
             }, status=400)
 
-# /post/like/<id>/
+# /post/comments/<pid>/
+@api_view(['GET'])
+def post_comments(request, pid):
+    if (not request.user.is_authenticated):
+        return JsonResponse({
+                "command"   :   "NOT_AUTHENTICATED",
+                "info"      :   "user is not authenticated"
+            }, status=400)
+    try:
+        comments = Comment.objects.filter(post_id=pid)
+        response = []
+        for comment in comments:
+            serializer = CommentSerializer(comment)
+            response.append(serializer.data)
+        return JsonResponse(response, safe=False)
+    except Exception as e:
+        return JsonResponse({
+                "command"   :   "GET_COMMENTS_FAILED",
+                "info"      :   str(e)
+            }, status=400)
+
+# /post/create_like/<id>/
 @api_view(['POST'])
-def post_like(request, pk):
+def post_create_like(request, pk):
     if (not request.user.is_authenticated):
         return JsonResponse({
                 "command"   :   "NOT_AUTHENTICATED",
@@ -183,6 +204,27 @@ def post_like(request, pk):
     except Exception as e:
         return JsonResponse({
                 "command"   :   "LIKE_FAILED",
+                "info"      :   str(e)
+            }, status=400)
+
+# /post/likes/<pid>/
+@api_view(['GET'])
+def post_likes(request, pid):
+    if (not request.user.is_authenticated):
+        return JsonResponse({
+                "command"   :   "NOT_AUTHENTICATED",
+                "info"      :   "user is not authenticated"
+            }, status=400)
+    try:
+        likes = Like.objects.filter(post_id=pid)
+        response = []
+        for like in likes:
+            serializer = LikeSerializer(like)
+            response.append(serializer.data)
+        return JsonResponse(response, safe=False)
+    except Exception as e:
+        return JsonResponse({
+                "command"   :   "GET_LIKES_FAILED",
                 "info"      :   str(e)
             }, status=400)
 
@@ -257,6 +299,21 @@ def post_create_collection(request):
                 "command"   :   "NOT_AUTHENTICATED",
                 "info"      :   "user is not authenticated"
             }, status=400)
+    try:
+        data = request.data
+        collection = Collection.objects.create(
+            user=request.user,
+            name=data['name']
+        )
+        collection.save()
+        return JsonResponse({
+                "command"   :   "CREATE_COLLECTION_SUCCESS"
+            }, status=200)
+    except Exception as e:
+        return JsonResponse({
+                "command"   :   "CREATE_COLLECTION_FAILED",
+                "info"      :   str(e)
+            }, status=400)
 
 # /post/collection/<id>/
 @api_view(['GET'])
@@ -265,6 +322,15 @@ def post_collection(request, pk):
         return JsonResponse({
                 "command"   :   "NOT_AUTHENTICATED",
                 "info"      :   "user is not authenticated"
+            }, status=400)
+    try:
+        collection = Collection.objects.get(pk=pk)
+        serializer = CollectionSerializer(collection)
+        return JsonResponse(serializer.data)
+    except Exception as e:
+        return JsonResponse({
+                "command"   :   "GET_COLLECTION_FAILED",
+                "info"      :   str(e)
             }, status=400)
 
 # /post/collections/
@@ -275,6 +341,18 @@ def post_collections(request):
                 "command"   :   "NOT_AUTHENTICATED",
                 "info"      :   "user is not authenticated"
             }, status=400)
+    try:
+        collections = Collection.objects.filter(user_id=request.user.id)
+        response = []
+        for collection in collections:
+            serializer = CollectionSerializer(collection)
+            response.append(serializer.data)
+        return JsonResponse(response, safe=False)
+    except Exception as e:
+        return JsonResponse({
+                "command"   :   "GET_COLLECTIONS_FAILED",
+                "info"      :   str(e)
+            }, status=400)
 
 # /post/collections/<uid>/
 @api_view(['GET'])
@@ -284,12 +362,61 @@ def post_collections_by_uid(request, uid):
                 "command"   :   "NOT_AUTHENTICATED",
                 "info"      :   "user is not authenticated"
             }, status=400)
+    try:
+        collections = Collection.objects.filter(user_id=uid)
+        response = []
+        for collection in collections:
+            serializer = CollectionSerializer(collection)
+            response.append(serializer.data)
+        return JsonResponse(response, safe=False)
+    except Exception as e:
+        return JsonResponse({
+                "command"   :   "GET_COLLECTIONS_FAILED",
+                "info"      :   str(e)
+            }, status=400)
 
-# /post/update_collection/<id>/
+# /post/update_collection/append/<id>/
 @api_view(['PUT'])
-def post_update_collection(request, pk):
+def post_update_collection_append(request, pk):
     if (not request.user.is_authenticated):
         return JsonResponse({
                 "command"   :   "NOT_AUTHENTICATED",
                 "info"      :   "user is not authenticated"
+            }, status=400)
+    try:
+        data = request.data
+        collection = Collection.objects.get(pk=ok)
+        # append post to collection here ...
+        serializer = CollectionSerializer(collection)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=200)
+        return JsonResponse(serializer.errors, status=400)
+    except Exception as e:
+        return JsonResponse({
+                "command"   :   "UPDATE_COLLECTION_APPEND_FAILED",
+                "info"      :   str(e)
+            }, status=400)
+
+# /post/update_collection/remove/<id>/
+@api_view(['PUT'])
+def post_update_collection_remove(request, pk):
+    if (not request.user.is_authenticated):
+        return JsonResponse({
+                "command"   :   "NOT_AUTHENTICATED",
+                "info"      :   "user is not authenticated"
+            }, status=400)
+    try:
+        data = request.data
+        collection = Collection.objects.get(pk=ok)
+        # delete post from collection here ...
+        serializer = CollectionSerializer(collection)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=200)
+        return JsonResponse(serializer.errors, status=400)
+    except Exception as e:
+        return JsonResponse({
+                "command"   :   "UPDATE_COLLECTION_REMOVE_FAILED",
+                "info"      :   str(e)
             }, status=400)
