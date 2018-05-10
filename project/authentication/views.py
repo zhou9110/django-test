@@ -37,9 +37,9 @@ def auth_register(request):
         data = request.data
         # create user
         user = User.objects.create_user(
-                data['username'], 
-                data['email'], 
-                data['password']
+                username=data['username'], 
+                email=data['email'], 
+                password=data['password']
             )
         user.save()
         # create profile
