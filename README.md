@@ -57,7 +57,7 @@ data=
 }
 ```
 
-Update password
+Update password of the current user
 ```
 /auth/update_password/
 method='PUT'
@@ -68,25 +68,25 @@ data=
 }
 ```
 
-Logout
+Logout the current user
 ```
 /auth/logout/
 method='GET'
 ```
 
-Get profile
+Get profile of the current user
 ```
 /user/profile/
 method='GET'
 ```
 
-Get profile by id
+Get profile of a user by user id
 ```
 /user/profile/<id>/
 method='GET'
 ```
 
-Update profile
+Update profile of the current user
 ```
 /user/update_profile/
 method='PUT'
@@ -100,7 +100,7 @@ data=
 }
 ```
 
-Follow
+Follow a user by user id
 ```
 /user/follow/<id>/
 method='POST'
@@ -108,7 +108,7 @@ content_type='application/json'
 data={}
 ```
 
-Unfollow
+Unfollow a user by user id of the current user
 ```
 /user/unfollow/<id>/
 method='POST'
@@ -116,37 +116,37 @@ content_type='application/json'
 data={}
 ```
 
-Get following
+Get following of the current user
 ```
 /user/following/
 method='GET'
 ```
 
-Get following by id
+Get following of user by user id
 ```
 /user/following/<id>/
 method='GET'
 ```
 
-Get followers
+Get followers of the current user
 ```
 /user/followers/
 method='GET'
 ```
 
-Get followers by id
+Get followers of a user by user id
 ```
 /user/followers/<id>/
 method='GET'
 ```
 
-Get posts of the user
+Get posts of the current user
 ```
 /post/posts/
 method='GET'
 ```
 
-Get posts of the user by uid
+Get posts of a user by user id
 ```
 /post/posts/<uid>/
 method='GET'
@@ -158,32 +158,32 @@ Get post by post id
 method='GET'
 ```
 
-Create post
+Create post of the current user
 ```
 /post/create/
 method='POST'
 {
-  "text": <TEXT>,
-	"images": <IMAGES>,
-	"location": <LOCATION>,
-	"tags": [<TAG_NAME>] (optional)
+  "text": <TEXT>,
+  "images": <IMAGES>,
+  "location": <LOCATION>,
+  "tags": [<TAG_NAME>] (optional)
 }
 ```
 
-Update post by post id
+Update post of the current user by post id
 ```
 /post/update/<id>/
 method='PUT'
 data=
 {
-  "text": <TEXT>,
-	"images": <IMAGES>,
-	"location": <LOCATION>,
-	"tags": [<TAG_NAME>]
+  "text": <TEXT>,
+  "images": <IMAGES>,
+  "location": <LOCATION>,
+  "tags": [<TAG_NAME>]
 }
 ```
 
-Comment post by post id
+Comment post by post id from the current user
 ```
 /post/comment/<id>/
 method='POST'
@@ -193,7 +193,7 @@ data=
 }
 ```
 
-Like post by post id
+Like post by post id from the current user
 ```
 /post/like/<id>/
 method='POST'
