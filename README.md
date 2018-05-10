@@ -284,3 +284,13 @@ data=
   "post_id": <POST_ID>
 }
 ```
+
+Update name of a collection of the current user by collection id
+```
+/post/update_collection/<id>/
+method='PUT'
+data=
+{
+  "name": <COLLECTION_NAME>
+}
+```

@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'^collections/(?P<uid>[0-9]+)/$', post_collections_by_uid),
     url(r'^update_collection/append/(?P<pk>[0-9]+)/$', post_update_collection_append),
     url(r'^update_collection/remove/(?P<pk>[0-9]+)/$', post_update_collection_remove),
+    url(r'^update_collection/(?P<pk>[0-9]+)/$', post_update_collection),
     # ...
 ]

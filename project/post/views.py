@@ -385,8 +385,9 @@ def post_update_collection_append(request, pk):
             }, status=400)
     try:
         data = request.data
-        collection = Collection.objects.get(pk=ok)
-        # append post to collection here ...
+        collection = Collection.objects.get(pk=pk, user_id=request.user.id)
+        post = Post.objects.get(pk=data['post_id'])
+        collection.posts.add(post)
         serializer = CollectionSerializer(collection)
         if serializer.is_valid():
             serializer.save()
@@ -408,8 +409,9 @@ def post_update_collection_remove(request, pk):
             }, status=400)
     try:
         data = request.data
-        collection = Collection.objects.get(pk=ok)
-        # delete post from collection here ...
+        collection = Collection.objects.get(pk=pk, user_id=request.user.id)
+        post = Post.objects.get(pk=data['post_id'])
+        collection.posts.remove(post)
         serializer = CollectionSerializer(collection)
         if serializer.is_valid():
             serializer.save()
@@ -418,5 +420,26 @@ def post_update_collection_remove(request, pk):
     except Exception as e:
         return JsonResponse({
                 "command"   :   "UPDATE_COLLECTION_REMOVE_FAILED",
+                "info"      :   str(e)
+            }, status=400)
+
+# /post/update_collection/<id>/
+@api_view(['PUT'])
+def post_update_collection(request, pk):
+    if (not request.user.is_authenticated):
+        return JsonResponse({
+                "command"   :   "NOT_AUTHENTICATED",
+                "info"      :   "user is not authenticated"
+            }, status=400)
+    try:
+        data = request.data
+        collection = Collection.objects.filter(pk=pk, user_id=request.user.id)
+        collection.update(name=data['name'])
+        return JsonResponse({
+                "command"   :   "UPDATE_COLLECTION_SUCCESS"
+            }, status=200)
+    except Exception as e:
+        return JsonResponse({
+                "command"   :   "UPDATE_COLLECTION_FAILED",
                 "info"      :   str(e)
             }, status=400)
