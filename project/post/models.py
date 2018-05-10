@@ -42,3 +42,15 @@ class Like(models.Model):
     )
     created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
+
+class Collection(models.Model):
+    user = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE
+    )
+    posts = models.ManyToManyField(Post)
+    name = models.CharField(max_length=32)
+    created = models.DateTimeField(auto_now_add=True)
+    last_modified = models.DateTimeField(auto_now=True)
+    is_public = models.BooleanField(default=True)
+    

@@ -248,3 +248,48 @@ def post_create_tag(request):
                 "command"   :   "CREATE_TAG_FAILED",
                 "info"      :   str(e)
             }, status=400)
+
+# /post/create_collection/
+@api_view(['POST'])
+def post_create_collection(request):
+    if (not request.user.is_authenticated):
+        return JsonResponse({
+                "command"   :   "NOT_AUTHENTICATED",
+                "info"      :   "user is not authenticated"
+            }, status=400)
+
+# /post/collection/<id>/
+@api_view(['GET'])
+def post_collection(request, pk):
+    if (not request.user.is_authenticated):
+        return JsonResponse({
+                "command"   :   "NOT_AUTHENTICATED",
+                "info"      :   "user is not authenticated"
+            }, status=400)
+
+# /post/collections/
+@api_view(['GET'])
+def post_collections(request):
+    if (not request.user.is_authenticated):
+        return JsonResponse({
+                "command"   :   "NOT_AUTHENTICATED",
+                "info"      :   "user is not authenticated"
+            }, status=400)
+
+# /post/collections/<uid>/
+@api_view(['GET'])
+def post_collections_by_uid(request, uid):
+    if (not request.user.is_authenticated):
+        return JsonResponse({
+                "command"   :   "NOT_AUTHENTICATED",
+                "info"      :   "user is not authenticated"
+            }, status=400)
+
+# /post/update_collection/<id>/
+@api_view(['PUT'])
+def post_update_collection(request, pk):
+    if (not request.user.is_authenticated):
+        return JsonResponse({
+                "command"   :   "NOT_AUTHENTICATED",
+                "info"      :   "user is not authenticated"
+            }, status=400)

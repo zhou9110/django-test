@@ -13,5 +13,10 @@ urlpatterns = [
     url(r'^tag/(?P<pk>[0-9]+)/$', post_tag),
     url(r'^convert_tags/$', post_convert_tags),
     url(r'^create_tag/$', post_create_tag),
+    url(r'^create_collection/$', post_create_collection),
+    url(r'^collection/(?P<pk>[0-9]+)/$', post_collection),
+    url(r'^collections/$', post_collections),
+    url(r'^collections/(?P<uid>[0-9]+)/$', post_collections_by_uid),
+    url(r'^update_collection/(?P<pk>[0-9]+)/$', post_update_collection),
     # ...
 ]
