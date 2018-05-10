@@ -3,7 +3,7 @@ from django.contrib.auth.models import User, Group
 from django.utils import timezone
 
 class Tag(models.Model):
-    text = models.TextField()
+    name = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
 
 class Post(models.Model):
@@ -11,7 +11,7 @@ class Post(models.Model):
         User, 
         on_delete=models.CASCADE
     )
-    tag = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag)
     text = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)

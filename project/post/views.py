@@ -1,4 +1,9 @@
 from django.shortcuts import render
+from .models import *
+from .serializers import *
+from rest_framework.decorators import api_view
+from django.http import HttpResponse, JsonResponse
+from django.core import serializers
 
 
 # /post/posts/
@@ -78,6 +83,15 @@ def post_create(request):
             location=data['location']
         )
         post.save()
+        if ('tags' in data):
+            for tag in data['tags']:
+                t = Tag.objects.filter(name=tag)
+                if (not len(t)):
+                    new_tag = Tag.objects.create(name=tag)
+                    post.tags.add(new_tag)
+                else:
+                    old_tag = Tag.objects.get(name=tag)
+                    post.tags.add(old_tag)
         return JsonResponse({
                 "command"   :   "CREATE_POST_SUCCESS"
             }, status=200)
@@ -158,5 +172,46 @@ def post_like(request, pk):
     except Exception as e:
         return JsonResponse({
                 "command"   :   "LIKE_FAILED",
+                "info"      :   str(e)
+            }, status=400)
+
+# /post/tag/<id>/
+@api_view(['POST'])
+def post_tag(request, pk):
+    if (not request.user.is_authenticated):
+        return JsonResponse({
+                "command"   :   "NOT_AUTHENTICATED",
+                "info"      :   "user is not authenticated"
+            }, status=400)
+    try:
+        tag = Tag.objects.get(pk=pk)
+        serializer = TagSerializer(tag)
+        return JsonResponse(serializer.data)
+    except Exception as e:
+        return JsonResponse({
+                "command"   :   "GET_TAG_FAILED",
+                "info"      :   str(e)
+            }, status=400)
+
+# /post/create_tag/
+@api_view(['POST'])
+def post_create_tag(request):
+    if (not request.user.is_authenticated):
+        return JsonResponse({
+                "command"   :   "NOT_AUTHENTICATED",
+                "info"      :   "user is not authenticated"
+            }, status=400)
+    try:
+        data = request.data
+        tag = Comment.objects.create(
+            name=data['name']
+        )
+        tag.save()
+        return JsonResponse({
+                "command"   :   "CREATE_TAG_SUCCESS"
+            }, status=200)
+    except Exception as e:
+        return JsonResponse({
+                "command"   :   "CREATE_TAG_FAILED",
                 "info"      :   str(e)
             }, status=400)
