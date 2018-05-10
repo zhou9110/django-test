@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^comment/(?P<pk>[0-9]+)/$', post_comment),
     url(r'^like/(?P<pk>[0-9]+)/$', post_like),
     url(r'^tag/(?P<pk>[0-9]+)/$', post_tag),
+    url(r'^convert_tags/$', post_convert_tags),
     url(r'^create_tag/$', post_create_tag),
     # ...
 ]

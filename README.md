@@ -139,3 +139,88 @@ Get followers by id
 /user/followers/<id>/
 method='GET'
 ```
+
+Get posts of the user
+```
+/post/posts/
+method='GET'
+```
+
+Get posts of the user by uid
+```
+/post/posts/<uid>/
+method='GET'
+```
+
+Get post by post id
+```
+/post/post/<id>/
+method='GET'
+```
+
+Create post
+```
+/post/create/
+method='POST'
+{
+  "text": <TEXT>,
+	"images": <IMAGES>,
+	"location": <LOCATION>,
+	"tags": [<TAG_NAME>] (optional)
+}
+```
+
+Update post by post id
+```
+/post/update/<id>/
+method='PUT'
+data=
+{
+  "text": <TEXT>,
+	"images": <IMAGES>,
+	"location": <LOCATION>,
+	"tags": [<TAG_NAME>]
+}
+```
+
+Comment post by post id
+```
+/post/comment/<id>/
+method='POST'
+data=
+{
+  "text": <TEXT>
+}
+```
+
+Like post by post id
+```
+/post/like/<id>/
+method='POST'
+data={}
+```
+
+Get tag by tag id
+```
+/post/tag/<id>/
+method='GET'
+```
+
+Convert tags id list to tags string list
+```
+/post/convert_tags/
+method='POST'
+{
+  "tags": [<TAG_ID>]
+}
+```
+
+Create tag
+```
+/post/create_tag/
+method='POST'
+data=
+{
+  "name": <TAG_NAME>
+}
+```

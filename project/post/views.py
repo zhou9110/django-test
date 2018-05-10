@@ -113,6 +113,17 @@ def post_update(request, pk):
         post = Post.objects.get(pk=pk, user_id=request.user.id)
         data = request.data
         data['user'] = request.user.id
+        tags = []
+        if ('tags' in data):
+            for tag in data['tags']:
+                t = Tag.objects.filter(name=tag)
+                if (not len(t)):
+                    new_tag = Tag.objects.create(name=tag)
+                    tags.append(new_tag.id)
+                else:
+                    old_tag = Tag.objects.get(name=tag)
+                    tags.append(old_tag.id)
+        data['tags'] = tags
         serializer = PostSerializer(post, data=data)
         if serializer.is_valid():
             serializer.save()
@@ -176,7 +187,7 @@ def post_like(request, pk):
             }, status=400)
 
 # /post/tag/<id>/
-@api_view(['POST'])
+@api_view(['GET'])
 def post_tag(request, pk):
     if (not request.user.is_authenticated):
         return JsonResponse({
@@ -190,6 +201,28 @@ def post_tag(request, pk):
     except Exception as e:
         return JsonResponse({
                 "command"   :   "GET_TAG_FAILED",
+                "info"      :   str(e)
+            }, status=400)
+
+# /post/convert_tags/
+@api_view(['POST'])
+def post_convert_tags(request):
+    if (not request.user.is_authenticated):
+        return JsonResponse({
+                "command"   :   "NOT_AUTHENTICATED",
+                "info"      :   "user is not authenticated"
+            }, status=400)
+    try:
+        data = request.data
+        response = []
+        for i in data['tags']:
+            tag = Tag.objects.get(pk=i)
+            serializer = TagSerializer(tag)
+            response.append(serializer.data)
+        return JsonResponse(response, safe=False)
+    except Exception as e:
+        return JsonResponse({
+                "command"   :   "GET_TAGS_FAILED",
                 "info"      :   str(e)
             }, status=400)
 
