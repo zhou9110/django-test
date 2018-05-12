@@ -30,7 +30,6 @@ urlpatterns = [
     url(r'^api/', include('project.api.urls')),
     url(r'^auth/', include('project.authentication.urls')),
     url(r'^user/', include('project.user.urls')),
-    url(r'^message/', include('project.message.urls')),
     url(r'^post/', include('project.post.urls')),
 ]
 
