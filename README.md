@@ -1,4 +1,4 @@
-# project-name
+# django-backend
 
 make sure your machine running mysql
 
